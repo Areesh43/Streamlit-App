@@ -65,25 +65,39 @@ with tab4:
     # TODO: using the streamlit methods
     #  display the APOD image, title, and other features
 
-    # Title of the Image
+    # Dropdown to where you can select what to display
+    option = st.selectbox(
+        "Select what you want to display:",
+        (
+            "Image only",
+            "Image + Title",
+            "Image + Description",
+            "Everything"
+        )
+    )
+
+    # Extract APOD data
     title = response["title"]
-    st.write(title)
-
-    # Printing out the Image
     image = response["url"]
-    st.image(image)
-
-    # Date the image was taken
     date = response["date"]
-    st.write(date)
-
-    # The Media Type of the Image
     media = response["media_type"]
-    st.write("Media type: " + media)
-
-    # Description of the image
     explanation = response["explanation"]
-    st.write(explanation)
 
-    # Copyright
-    st.write(copyright)
+    # Display based on selection
+    if option == "Image only":
+        st.image(image)
+
+    elif option == "Image + Title":
+        st.subheader(title)
+        st.image(image)
+
+    elif option == "Image + Description":
+        st.image(image)
+        st.write(explanation)
+
+    elif option == "Everything":
+        st.subheader(title)
+        st.image(image)
+        st.write(f"📅 Date: {date}")
+        st.write(f"📷 Media Type: {media}")
+        st.write(explanation)
